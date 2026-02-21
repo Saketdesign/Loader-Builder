@@ -2,7 +2,6 @@
 
 Loader Builder is a React and TypeScript visual tool for designing, visualizing, and exporting animated "AI-style" grid loaders. You can tweak properties like pattern, shape, and colors, and instantly export the loader as a React component or as a WebM video!
 
-![Loader Builder Screenshot](./public/screenshot.png)
 
 ## Features
 - **Visual Builder:** Drag, pan, and zoom around the canvas.
