@@ -67,6 +67,7 @@ export interface LoaderConfig {
   showGrid: boolean; // For builder mode
   showNodes: boolean; // Connecting lines
   showSubheading: boolean;
+  textShimmer: boolean;
 }
 
 // Canvas State

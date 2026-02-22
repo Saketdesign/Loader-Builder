@@ -87,4 +87,5 @@ export const createDefaultLoader = (
   showNodes: false,
   subheading: getRandom(SUBHEADINGS),
   showSubheading: true,
+  textShimmer: false,
 });

@@ -3,6 +3,7 @@ import type { LoaderConfig } from '../types';
 import { GridRenderer } from './GridRenderer';
 import { useStore } from '../store';
 import { clsx } from 'clsx';
+import { TextShimmer } from './motion-primitives/text-shimmer';
 
 interface LoaderCardProps {
   loader: LoaderConfig;
@@ -134,7 +135,11 @@ export const LoaderCard: React.FC<LoaderCardProps> = ({ loader, index }) => {
             }
             title={loader.text}
           >
-            {loader.text}
+            {loader.textShimmer ? (
+              <TextShimmer className="inline-block font-inherit">{loader.text}</TextShimmer>
+            ) : (
+              loader.text
+            )}
           </div>
 
           {loader.showSubheading && loader.subheading && (
