@@ -2,14 +2,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
   motion,
-  SpringOptions,
   useMotionValue,
   useSpring,
   AnimatePresence,
-  Transition,
-  Variant,
 } from 'motion/react';
-import { cn } from '@/lib/utils';
+import type { SpringOptions, Transition, Variant } from 'motion/react';
+import { cn } from '../../utils/cn';
 
 export type CursorProps = {
   children: React.ReactNode;

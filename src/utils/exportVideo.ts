@@ -109,12 +109,15 @@ export const exportWebM = async (
               continue;
             }
 
-            const { active, opacity } = getCellState(
+            const outState = { active: false, opacity: 0.2 };
+            getCellState(
               x,
               y,
               (time - startTime) * 0.001,
-              config
+              config,
+              outState
             );
+            const { active, opacity } = outState;
 
             let drawAlpha = active ? opacity : 0.2;
             let drawSize = cellDrawSize;
@@ -282,7 +285,7 @@ export const exportWebM = async (
                 effects.glow *
                 0.5 *
                 (animationStyle === 'glow' &&
-                (!colors.colorMap || colors.colorMap === 'none')
+                  (!colors.colorMap || colors.colorMap === 'none')
                   ? opacity * 2
                   : 1);
               ctx.shadowColor = finalColor as string;

@@ -1,11 +1,12 @@
 'use client';
-import { AnimatePresence, motion, Transition, Variants } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
+import type { Transition, Variants } from 'motion/react';
 import React, { createContext, useContext, useEffect, useRef } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../utils/cn';
 import { useId } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import { usePreventScroll } from '@/hooks/usePreventScroll';
+import { usePreventScroll } from './usePreventScroll';
 
 const DialogContext = createContext<{
   isOpen: boolean;
