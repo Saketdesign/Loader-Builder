@@ -4,8 +4,9 @@ export const getCellState = (
   x: number,
   y: number,
   time: number,
-  config: LoaderConfig
-): { active: boolean; opacity: number } => {
+  config: LoaderConfig,
+  outState: { active: boolean; opacity: number }
+): void => {
   const { pattern, gridSize, speed } = config;
 
   // Normalized time based on speed
@@ -26,7 +27,9 @@ export const getCellState = (
       const wavePos = ((t * 10) % cycleLength) - 2 * scale;
       const dist = Math.abs(diag - wavePos) / scale;
       const active = dist < 2;
-      return { active, opacity: active ? 1 - dist * 0.5 : 0.1 };
+      outState.active = active;
+      outState.opacity = active ? 1 - dist * 0.5 : 0.1;
+      return;
     }
 
     case 'radial': {
@@ -38,7 +41,9 @@ export const getCellState = (
       const radius = (t * 5) % maxRadius;
       const wave = Math.abs(dist - radius) / scale;
       const active = wave < 1.5;
-      return { active, opacity: active ? 1 - wave * 0.4 : 0.1 };
+      outState.active = active;
+      outState.opacity = active ? 1 - wave * 0.4 : 0.1;
+      return;
     }
 
     case 'spiral': {
@@ -49,14 +54,18 @@ export const getCellState = (
       const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
       const spiralPhase = angle + (dist / scale) * 0.5 - t * 5;
       const active = Math.cos(spiralPhase) > 0.8;
-      return { active, opacity: active ? 1 : 0.1 };
+      outState.active = active;
+      outState.opacity = active ? 1 : 0.1;
+      return;
     }
 
     case 'pulse': {
       const noise =
         Math.sin((x / scale) * 0.5 + t) * Math.cos((y / scale) * 0.5 + t * 0.7);
       const active = noise > 0.6;
-      return { active, opacity: active ? noise : 0.1 };
+      outState.active = active;
+      outState.opacity = active ? noise : 0.1;
+      return;
     }
 
     case 'fluid': {
@@ -82,7 +91,9 @@ export const getCellState = (
       // So we can remap 0.6 -> 1.0 to 0.0 -> 1.0
       const blobIntensity = Math.max(0, (normalized - 0.6) / 0.4);
 
-      return { active, opacity: active ? 0.3 + blobIntensity * 0.7 : 0.1 };
+      outState.active = active;
+      outState.opacity = active ? 0.3 + blobIntensity * 0.7 : 0.1;
+      return;
     }
 
     case 'rain': {
@@ -107,10 +118,14 @@ export const getCellState = (
         // Inside the raindrop trail
         const intensity = 1 - dist / (3 * scale);
         const active = intensity > 0.2;
-        return { active, opacity: intensity };
+        outState.active = active;
+        outState.opacity = intensity;
+        return;
       }
 
-      return { active: false, opacity: 0.1 };
+      outState.active = false;
+      outState.opacity = 0.1;
+      return;
     }
 
     case 'radar': {
@@ -140,16 +155,22 @@ export const getCellState = (
         // Inside the radar beam
         const intensity = 1 - angleDiff / beamWidth;
         const active = intensity > 0.1;
-        return { active, opacity: intensity };
+        outState.active = active;
+        outState.opacity = intensity;
+        return;
       }
 
-      return { active: false, opacity: 0.1 };
+      outState.active = false;
+      outState.opacity = 0.1;
+      return;
     }
 
     case 'random':
     default: {
       const active = Math.random() > 0.5;
-      return { active, opacity: active ? 1 : 0.1 };
+      outState.active = active;
+      outState.opacity = active ? 1 : 0.1;
+      return;
     }
   }
 };

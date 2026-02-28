@@ -7,6 +7,9 @@ import { createDefaultLoader } from '../utils/defaults';
 import { SettingsPanel } from './SettingsPanel';
 import { TopControls } from './TopControls';
 import arrowSvg from '../assets/Arrow.svg';
+import { TextScramble } from './motion-primitives/text-scramble';
+import { TextEffect } from './motion-primitives/text-effect';
+import { motion, AnimatePresence } from 'motion/react';
 
 export const MainLayout: React.FC = () => {
   const {
@@ -64,13 +67,21 @@ export const MainLayout: React.FC = () => {
         {/* Header & Description */}
         <div className="absolute top-4 left-4 right-4 md:right-auto md:top-8 md:left-8 z-30 pointer-events-none">
           <div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl md:rounded-[24px] p-4 md:p-6 shadow-xl">
-            <h1 className="text-xl md:text-3xl font-bold tracking-tight text-white mb-1 md:mb-2">
+            <TextScramble
+              as="h1"
+              className="text-xl md:text-3xl font-notch font-bold tracking-tight text-white mb-1 md:mb-2"
+            >
               Loader Builder
-            </h1>
-            <p className="text-gray-400 text-xs md:text-sm max-w-[250px] md:max-w-[300px]">
-              Design and customize animated AI-style grid loaders. Export as
-              React components or WebM videos.
-            </p>
+            </TextScramble>
+            <TextEffect
+              as="div"
+              preset="fade-in-blur"
+              per="line"
+              className="text-gray-400 text-xs md:text-sm max-w-[250px] md:max-w-[300px] leading-relaxed"
+            >
+              {`Design and customize animated AI-style grid loaders. Export as
+React components or WebM videos.`}
+            </TextEffect>
           </div>
         </div>
 
@@ -92,13 +103,12 @@ export const MainLayout: React.FC = () => {
 
         {/* Add Loader FAB */}
         <div
-          className={`absolute left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 transition-all duration-300 ${
-            selectedLoaderId ? 'bottom-[48vh] md:bottom-8' : 'bottom-8'
-          }`}
+          className={`absolute left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 transition-all duration-300 ${selectedLoaderId ? 'bottom-[48vh] md:bottom-8' : 'bottom-8'
+            }`}
         >
           {loaders.length === 0 && (
             <div className="absolute bottom-full left-0 mb-6 flex flex-col items-center pointer-events-none -translate-x-[0%]">
-              <span className="text-3xl font-['Caveat'] text-white whitespace-nowrap -rotate-[10deg] mb-2 tracking-wide">
+              <span className="text-3xl font-caveat text-white whitespace-nowrap -rotate-[10deg] mb-2 tracking-wide">
                 Click to create a loader
               </span>
               <div className="w-24 h-24 -mt-0 -ml-16">
@@ -120,39 +130,46 @@ export const MainLayout: React.FC = () => {
       </div>
 
       {/* Floating Right Panel */}
-      <div
-        className={`absolute right-0 bottom-0 left-0 transition-transform duration-300 ease-in-out md:transition-none md:translate-y-0 md:transform-none ${
-          selectedLoaderId
-            ? 'translate-y-0 h-[45vh] md:h-auto'
-            : 'translate-y-full md:h-auto'
-        } md:left-auto md:right-6 md:top-6 md:bottom-6 md:w-80 bg-card/95 md:bg-card/80 backdrop-blur-xl border border-border/50 rounded-t-[32px] md:rounded-b-[32px] md:rounded-[32px] flex flex-col z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] md:shadow-2xl overflow-hidden`}
-      >
-        <div className="p-4 border-b border-white/5 bg-black/40 md:bg-black/20 backdrop-blur z-20 flex justify-between items-center">
-          <h2 className="font-semibold text-white tracking-tight flex items-center gap-2 px-2">
-            <Sparkles size={16} className="text-primary" />
-            Settings
-          </h2>
-          <button
-            onClick={() => selectLoader(null)}
-            className="md:hidden p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center justify-center"
-            title="Close Settings"
+      <AnimatePresence>
+        {loaders.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0.5, x: 40, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, transition: { duration: 0 } }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className={`absolute right-0 bottom-0 left-0 transition-transform duration-300 ease-in-out md:transition-none md:translate-y-0 md:transform-none ${selectedLoaderId
+              ? 'translate-y-0 h-[45vh] md:h-auto'
+              : 'translate-y-full md:h-auto'
+              } md:left-auto md:right-6 md:top-6 md:bottom-6 md:w-80 bg-card/95 md:bg-card/80 backdrop-blur-xl border border-border/50 rounded-t-[32px] md:rounded-b-[32px] md:rounded-[32px] flex flex-col z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] md:shadow-2xl overflow-hidden`}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m18 15-6-6-6 6" />
-            </svg>
-          </button>
-        </div>
-        <SettingsPanel />
-      </div>
+            <div className="p-4 border-b border-white/5 bg-black/40 md:bg-black/20 backdrop-blur z-20 flex justify-between items-center">
+              <h2 className="font-semibold text-white tracking-tight flex items-center gap-2 px-2">
+                <Sparkles size={16} className="text-primary" />
+                Settings
+              </h2>
+              <button
+                onClick={() => selectLoader(null)}
+                className="md:hidden p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center justify-center"
+                title="Close Settings"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m18 15-6-6-6 6" />
+                </svg>
+              </button>
+            </div>
+            <SettingsPanel />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

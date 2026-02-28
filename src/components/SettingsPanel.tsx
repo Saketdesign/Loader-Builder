@@ -15,6 +15,8 @@ import type {
   CellShape,
   AnimationStyle,
 } from '../types';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './motion-primitives/accordion';
+import { AnimatedNumber } from './motion-primitives/animated-number';
 
 export const SettingsPanel: React.FC = () => {
   const { selectedLoaderId, loaders, updateLoader, removeLoader } = useStore();
@@ -344,15 +346,36 @@ const Section: React.FC<{
   title: string;
   icon: React.ReactNode;
   children: React.ReactNode;
-}> = ({ title, icon, children }) => (
-  <div className="bg-secondary/30 rounded-lg p-3 border border-border/50 hover:border-border/80 transition-colors">
-    <div className="flex items-center gap-2 mb-3 text-gray-200 font-medium text-sm uppercase tracking-wider">
-      <span className="text-primary/70">{icon}</span>
-      <span>{title}</span>
-    </div>
-    <div className="space-y-3">{children}</div>
-  </div>
-);
+}> = ({ title, icon, children }) => {
+  const [isExpanded, setIsExpanded] = React.useState(true);
+  return (
+    <Accordion
+      className="bg-secondary/30 rounded-lg p-3 border border-border/50 hover:border-border/80 transition-colors"
+      expandedValue={isExpanded ? 'active' : null}
+      onValueChange={(v) => setIsExpanded(v === 'active')}
+    >
+      <AccordionItem value="active">
+        <AccordionTrigger className="w-full flex items-center justify-between text-gray-200 font-medium text-sm w-full outline-none">
+          <div className="flex items-center gap-2 uppercase tracking-wider">
+            <span className="text-primary/70">{icon}</span>
+            <span>{title}</span>
+          </div>
+          <svg
+            className={`w-4 h-4 text-muted transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="space-y-3 pt-4">{children}</div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+};
 
 const Input: React.FC<{
   label: string;
@@ -455,8 +478,8 @@ const Range: React.FC<{
             {label}
           </label>
         )}
-        <span className="text-xs text-gray-400 font-mono bg-secondary px-1.5 py-0.5 rounded">
-          {value}
+        <span className="text-xs text-gray-400 font-mono bg-secondary px-1.5 py-0.5 rounded flex items-center min-w-[32px] justify-center">
+          <AnimatedNumber value={value} format={(v) => (v % 1 !== 0 ? v.toFixed(1) : v.toString())} />
         </span>
       </div>
 
@@ -687,12 +710,12 @@ const Switch: React.FC<{
     role="switch"
     aria-checked={checked}
     onClick={() => onChange(!checked)}
-    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${checked ? 'bg-primary' : 'bg-secondary'
+    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${checked ? 'bg-primary' : 'bg-secondary'
       }`}
   >
     <span
       aria-hidden="true"
-      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${checked ? 'translate-x-4' : 'translate-x-0'
+      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${checked ? 'translate-x-[18px]' : 'translate-x-[2px]'
         }`}
     />
   </button>

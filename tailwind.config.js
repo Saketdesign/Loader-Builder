@@ -24,7 +24,10 @@ export default {
         ring: '#F97316',
       },
       fontFamily: {
-        sans: ['"JetBrains Mono"', 'sans-serif'],
+        sans: ['"JetBrains Mono"', 'monospace'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        notch: ['"Stack Sans Notch"', 'sans-serif'],
+        caveat: ['"Caveat"', 'cursive'],
       },
     },
   },
