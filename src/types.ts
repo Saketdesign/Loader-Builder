@@ -13,6 +13,7 @@ export type AnimationPattern =
   | 'fluid'
   | 'rain'
   | 'radar'
+  | 'spinner'
   | 'random';
 export type AnimationStyle =
   | 'fade'

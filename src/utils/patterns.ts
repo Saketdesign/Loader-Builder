@@ -165,6 +165,63 @@ export const getCellState = (
       return;
     }
 
+    case 'spinner': {
+      // Perimeter chaser pattern (strictly on the outermost edge)
+      const cx = (gridSize - 1) / 2;
+      const cy = (gridSize - 1) / 2;
+
+      const rx = x - cx;
+      const ry = y - cy;
+      const d = Math.max(Math.abs(rx), Math.abs(ry));
+
+      // Radius of the outermost edge
+      const maxD = (gridSize - 1) / 2;
+
+      // Only light up if it's strictly on the outmost edge
+      if (d !== maxD || d === 0) {
+        outState.active = false;
+        outState.opacity = 0.1;
+        return;
+      }
+
+      // Linear coordinate along the ring perimeter, clockwise from top-left
+      let p = 0;
+      if (ry === -d) p = rx + d;                   // Top edge
+      else if (rx === d) p = 2 * d + (ry + d);     // Right edge
+      else if (ry === d) p = 4 * d + (d - rx);     // Bottom edge
+      else if (rx === -d) p = 6 * d + (d - ry);    // Left edge
+
+      const perimeter = 8 * d;
+      const arms = 2; // Two active segments at opposite sides
+      const segmentLength = perimeter / arms;
+
+      // Speed multiplier
+      const sweepSpeed = t * 15;
+
+      let headPosition = sweepSpeed % segmentLength;
+      if (headPosition < 0) headPosition += segmentLength;
+
+      const cellPosition = p % segmentLength;
+
+      let dist = headPosition - cellPosition;
+      if (dist < 0) dist += segmentLength;
+
+      // Adjust tail length with patternScale
+      const tailLength = Math.max(2, 2 * d * scale);
+
+      if (dist < tailLength) {
+        // Bright leading head, slightly fading tail
+        const intensity = 1 - (dist / tailLength);
+        outState.active = true;
+        outState.opacity = 0.2 + 0.8 * Math.pow(intensity, 0.5);
+        return;
+      }
+
+      outState.active = false;
+      outState.opacity = 0.1;
+      return;
+    }
+
     case 'random':
     default: {
       const active = Math.random() > 0.5;

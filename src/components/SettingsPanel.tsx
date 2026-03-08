@@ -124,6 +124,7 @@ export const SettingsPanel: React.FC = () => {
               'fluid',
               'rain',
               'radar',
+              'spinner',
               'random',
             ]}
             onChange={(v) => handleChange('pattern', v as AnimationPattern)}
@@ -136,6 +137,7 @@ export const SettingsPanel: React.FC = () => {
             'fluid',
             'rain',
             'radar',
+            'spinner',
           ].includes(selectedLoader.pattern) && (
               <Range
                 label="Pattern Length"
