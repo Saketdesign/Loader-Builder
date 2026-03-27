@@ -45,11 +45,11 @@ const HEADINGS = [
   'Generating',
 ];
 const SUBHEADINGS = [
-  'Preparing your magic...',
-  'Brewing something awesome...',
+  'Preparing your magic…',
+  'Brewing something awesome…',
   'Almost ready, hang tight!',
-  'Fetching the good stuff...',
-  'One moment, please...',
+  'Fetching the good stuff…',
+  'One moment, please…',
 ];
 
 const getRandom = <T>(arr: T[]): T =>

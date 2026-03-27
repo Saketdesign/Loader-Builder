@@ -78,6 +78,7 @@ export const SettingsPanel: React.FC = () => {
             <label className="text-sm text-gray-400">Show Subheading</label>
             <Switch
               checked={selectedLoader.showSubheading}
+              label="Show Subheading"
               onChange={(v) => handleChange('showSubheading', v)}
             />
           </div>
@@ -86,6 +87,7 @@ export const SettingsPanel: React.FC = () => {
             <label className="text-sm text-gray-400">Text Shimmer</label>
             <Switch
               checked={!!selectedLoader.textShimmer}
+              label="Text Shimmer"
               onChange={(v) => handleChange('textShimmer', v)}
             />
           </div>
@@ -231,6 +233,7 @@ export const SettingsPanel: React.FC = () => {
             />
             <Switch
               checked={selectedLoader.effects.bloom}
+              label="Bloom"
               onChange={(v) => handleEffectChange('bloom', v)}
             />
           </div>
@@ -241,6 +244,7 @@ export const SettingsPanel: React.FC = () => {
             />
             <Switch
               checked={!!selectedLoader.effects.enableTrails}
+              label="Motion Trails"
               onChange={(v) => handleEffectChange('enableTrails', v)}
             />
           </div>
@@ -251,6 +255,7 @@ export const SettingsPanel: React.FC = () => {
             />
             <Switch
               checked={!!selectedLoader.effects.enable3DTilt}
+              label="3D Parallax Tilt Hover"
               onChange={(v) => handleEffectChange('enable3DTilt', v)}
             />
           </div>
@@ -261,6 +266,7 @@ export const SettingsPanel: React.FC = () => {
             />
             <Switch
               checked={selectedLoader.showNodes}
+              label="Constellation Nodes"
               onChange={(v) => handleChange('showNodes', v)}
             />
           </div>
@@ -331,8 +337,9 @@ export const SettingsPanel: React.FC = () => {
           <span>ID: {selectedLoader.id.slice(0, 8)}</span>
           <button
             onClick={() => removeLoader(selectedLoader.id)}
-            className="text-destructive/70 hover:text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors flex items-center gap-1"
+            className="text-destructive/70 hover:text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors flex items-center gap-1 relative before:absolute before:inset-[-8px]"
             title="Delete Loader (Del)"
+            aria-label="Delete Loader"
           >
             <Trash2 size={16} />
           </button>
@@ -352,7 +359,7 @@ const Section: React.FC<{
   const [isExpanded, setIsExpanded] = React.useState(true);
   return (
     <Accordion
-      className="bg-secondary/30 rounded-lg p-3 border border-border/50 hover:border-border/80 transition-colors"
+      className="bg-secondary/30 rounded-lg p-3 border border-[var(--border-hairline)] border-border/50 hover:border-border/80 transition-[border-color,background-color] duration-150 ease-out"
       expandedValue={isExpanded ? 'active' : null}
       onValueChange={(v) => setIsExpanded(v === 'active')}
     >
@@ -363,7 +370,7 @@ const Section: React.FC<{
             <span>{title}</span>
           </div>
           <svg
-            className={`w-4 h-4 text-muted transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 text-muted transition-transform duration-200 ease-out-quint ${isExpanded ? 'rotate-180' : ''}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -389,8 +396,9 @@ const Input: React.FC<{
       {label}
     </label>
     <input
-      className="w-full bg-input border border-border rounded-md px-3 py-2 text-base text-gray-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-muted/50"
+      className="w-full bg-input border border-border rounded-md px-3 py-2 text-base text-gray-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-[border-color,box-shadow,background-color] duration-150 ease-out placeholder:text-muted/50"
       value={value}
+      aria-label={label}
       onChange={(e) => onChange(e.target.value)}
     />
   </div>
@@ -408,8 +416,9 @@ const Select: React.FC<{
     </label>
     <div className="relative">
       <select
-        className="w-full bg-input border border-border rounded-md px-3 py-2 text-base text-gray-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all appearance-none capitalize"
+        className="w-full bg-input border border-border rounded-md px-3 py-2 text-base text-gray-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-[border-color,box-shadow,background-color] duration-150 ease-out appearance-none capitalize"
         value={value}
+        aria-label={label}
         onChange={(e) => onChange(e.target.value)}
       >
         {options.map((opt) => (
@@ -480,7 +489,7 @@ const Range: React.FC<{
             {label}
           </label>
         )}
-        <span className="text-xs text-gray-400 font-mono bg-secondary px-1.5 py-0.5 rounded flex items-center min-w-[32px] justify-center">
+        <span className="text-xs text-gray-400 font-mono bg-secondary px-1.5 py-0.5 rounded flex items-center min-w-[32px] justify-center tabular-nums">
           <AnimatedNumber value={value} format={(v) => (v % 1 !== 0 ? v.toFixed(1) : v.toString())} />
         </span>
       </div>
@@ -490,7 +499,7 @@ const Range: React.FC<{
         <div className="absolute left-0 right-0 h-6 bg-secondary overflow-hidden pointer-events-none rounded-full border border-white/5">
           {/* Visual Fill */}
           <div
-            className="absolute left-0 top-0 bottom-0 bg-primary/20 transition-all duration-150 ease-out"
+            className="absolute left-0 top-0 bottom-0 bg-primary/20 transition-[width] duration-150 ease-out"
             style={{ width: `${Math.max(0, Math.min(100, percentage))}%` }}
           />
 
@@ -532,6 +541,7 @@ const Range: React.FC<{
           max={max}
           step={step}
           value={value}
+          aria-label={label}
           onChange={(e) => onChange(parseFloat(e.target.value))}
         />
       </div>
@@ -639,7 +649,7 @@ const ColorInput: React.FC<{
       </div>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 z-[100] w-64 bg-[#18181b] border border-white/10 rounded-xl shadow-2xl p-4 flex flex-col gap-5">
+        <div className="absolute right-0 top-full mt-1 z-[100] w-64 bg-[#18181b] border border-white/10 rounded-xl shadow-2xl p-4 flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-150 ease-out-quint">
           <div className="flex flex-wrap gap-2">
             {[
               '#3b82f6',
@@ -654,7 +664,8 @@ const ColorInput: React.FC<{
               <button
                 key={c}
                 onClick={() => onChange(c)}
-                className="w-6 h-6 rounded-full border border-white/10 shadow-sm hover:scale-110 transition-transform"
+                aria-label={`Select color ${c}`}
+                className="w-6 h-6 rounded-full border border-white/10 shadow-sm hover:scale-110 transition-transform relative before:absolute before:inset-[-6px]"
                 style={{ backgroundColor: c }}
               />
             ))}
@@ -706,18 +717,20 @@ const ColorInput: React.FC<{
 const Switch: React.FC<{
   checked: boolean;
   onChange: (v: boolean) => void;
-}> = ({ checked, onChange }) => (
+  label?: string;
+}> = ({ checked, onChange, label }) => (
   <button
     type="button"
     role="switch"
     aria-checked={checked}
+    aria-label={label}
     onClick={() => onChange(!checked)}
-    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${checked ? 'bg-primary' : 'bg-secondary'
+    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-150 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary relative before:absolute before:inset-[-12px] ${checked ? 'bg-primary' : 'bg-secondary'
       }`}
   >
     <span
       aria-hidden="true"
-      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${checked ? 'translate-x-[18px]' : 'translate-x-[2px]'
+      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-md ring-0 transition-[transform] duration-150 ease-in-out ${checked ? 'translate-x-[18px]' : 'translate-x-[2px]'
         }`}
     />
   </button>
@@ -731,7 +744,7 @@ const LabelWithTooltip: React.FC<{
   <div className="flex items-center gap-1.5 relative group/tooltip">
     <label className={className}>{label}</label>
     <Info size={14} className="text-muted/50 cursor-help" />
-    <div className="absolute left-0 bottom-full mb-2 w-56 p-3 bg-[#18181b] border border-white/10 text-gray-300 text-xs leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 z-[60] pointer-events-none normal-case tracking-normal font-sans">
+    <div className="absolute left-0 bottom-full mb-2 w-56 p-3 bg-[#18181b] border border-white/10 text-gray-300 text-xs leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-[opacity,transform,visibility] duration-150 ease-out-quint translate-y-1 group-hover/tooltip:translate-y-0 z-[60] pointer-events-none normal-case tracking-normal font-sans delay-200">
       {tooltip}
     </div>
   </div>

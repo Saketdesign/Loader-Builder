@@ -9,28 +9,87 @@
 @layer base {
   :root {
     color-scheme: dark;
+
+    /* Font Weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Visual Design Tokens */
+    --border-hairline: 1px;
+
+    @media only screen and (min-device-pixel-ratio: 2),
+      only screen and (min-resolution: 192dpi) {
+      --border-hairline: 0.5px;
+    }
+
+    /* Z-Index Scale */
+    --z-dropdown: 100;
+    --z-modal: 200;
+    --z-tooltip: 300;
+    --z-toast: 400;
+
+    /* Animation Easings (from animation.md) */
+    --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+    --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+    --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+    --ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
+    --ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+
+    /* Animation Durations */
+    --duration-micro: 125ms;
+    --duration-standard: 200ms;
+    --duration-modal: 250ms;
+    --duration-page: 350ms;
   }
 
   body {
     @apply bg-background text-white antialiased overflow-hidden selection:bg-primary/30 selection:text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+
+  /* Custom Scrollbar Utility */
+  .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
 
-  ::-webkit-scrollbar-track {
+  .custom-scrollbar::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-secondaryHover rounded-full;
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-secondaryHover rounded-full transition-colors;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted;
+  @media (hover: hover) and (pointer: fine) {
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      @apply bg-muted;
+    }
   }
 }
 
@@ -40,4 +99,8 @@
 
 .font-caveat {
   font-family: 'Caveat', cursive !important;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }

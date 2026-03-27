@@ -61,11 +61,11 @@ export const MainLayout: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-background text-white overflow-hidden flex">
+    <div className="h-screen w-screen bg-background text-white overflow-hidden flex isolation-isolate">
       {/* Canvas Area */}
       <div className="flex-1 relative z-0">
         {/* Header & Description */}
-        <div className="absolute top-4 left-4 right-4 md:right-auto md:top-8 md:left-8 z-30 pointer-events-none">
+        <div className="absolute top-4 left-4 right-4 md:right-auto md:top-8 md:left-8 z-[var(--z-dropdown)] pointer-events-none select-none">
           <div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl md:rounded-[24px] p-4 md:p-6 shadow-xl">
             <TextScramble
               as="h1"
@@ -103,7 +103,7 @@ React components or WebM videos.`}
 
         {/* Add Loader FAB */}
         <div
-          className={`absolute left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 transition-all duration-300 ${selectedLoaderId ? 'bottom-[48vh] md:bottom-8' : 'bottom-8'
+          className={`absolute left-1/2 -translate-x-1/2 z-[var(--z-dropdown)] flex items-center gap-4 transition-[bottom,transform] duration-300 ease-out-quart ${selectedLoaderId ? 'bottom-[48vh] md:bottom-8' : 'bottom-8'
             }`}
         >
           {loaders.length === 0 && (
@@ -122,7 +122,7 @@ React components or WebM videos.`}
           )}
           <button
             onClick={handleAddLoader}
-            className="w-14 h-14 bg-primary rounded-[22px] flex items-center justify-center shadow-glow hover:scale-105 transition-transform cursor-pointer"
+            className="w-14 h-14 bg-primary rounded-[22px] flex items-center justify-center shadow-glow hover:scale-105 transition-transform duration-150 ease-out cursor-pointer active:scale-95"
           >
             <span className="text-2xl font-bold">+</span>
           </button>
@@ -135,12 +135,12 @@ React components or WebM videos.`}
           <motion.div
             initial={{ opacity: 0.5, x: 40, filter: 'blur(4px)' }}
             animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, transition: { duration: 0 } }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            exit={{ opacity: 0, transition: { duration: 0.15, ease: [0.25, 0.46, 0.45, 0.94] } }}
+            transition={{ duration: 0.25, ease: [0.165, 0.84, 0.44, 1] }}
             className={`absolute right-0 bottom-0 left-0 transition-transform duration-300 ease-in-out md:transition-none md:translate-y-0 md:transform-none ${selectedLoaderId
               ? 'translate-y-0 h-[45vh] md:h-auto'
               : 'translate-y-full md:h-auto'
-              } md:left-auto md:right-6 md:top-6 md:bottom-6 md:w-80 bg-card/95 md:bg-card/80 backdrop-blur-xl border border-border/50 rounded-t-[32px] md:rounded-b-[32px] md:rounded-[32px] flex flex-col z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] md:shadow-2xl overflow-hidden`}
+              } md:left-auto md:right-6 md:top-6 md:bottom-6 md:w-80 bg-card/95 md:bg-card/80 backdrop-blur-xl border border-border/50 rounded-t-[32px] md:rounded-b-[32px] md:rounded-[32px] flex flex-col z-[var(--z-modal)] shadow-[0_-10px_40px_rgba(0,0,0,0.3)] md:shadow-2xl overflow-hidden pb-[env(safe-area-inset-bottom)]`}
           >
             <div className="p-4 border-b border-white/5 bg-black/40 md:bg-black/20 backdrop-blur z-20 flex justify-between items-center">
               <h2 className="font-semibold text-white tracking-tight flex items-center gap-2 px-2">

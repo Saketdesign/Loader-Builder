@@ -49,10 +49,21 @@ export const GridRenderer: React.FC<GridRendererProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
-  const cellStatesRef = useRef<{ states: any[][]; lastGridSize: number }>({
+  const cellStatesRef = useRef<{
+    states: {
+      active: boolean;
+      opacity: number;
+      px: number;
+      py: number;
+      drawSize: number;
+      drawAlpha: number;
+    }[][];
+    lastGridSize: number;
+  }>({
     states: [],
     lastGridSize: 0,
   });
+  const isVisible = useRef(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -72,6 +83,10 @@ export const GridRenderer: React.FC<GridRendererProps> = ({
     const startTime = performance.now();
 
     const render = (time: number) => {
+      if (!isVisible.current) {
+        animationRef.current = 0;
+        return;
+      }
       const { gridSize, colors, effects, cellShape, animationStyle } = config;
 
       if (effects.enableTrails) {
@@ -250,9 +265,9 @@ export const GridRenderer: React.FC<GridRendererProps> = ({
           let finalColor: string = active ? colors.primary : colors.inactive;
 
           if (
-            colors.colorMap &&
-            colors.colorMap !== 'none' &&
-            COLORMAPS[colors.colorMap]
+              colors.colorMap &&
+              colors.colorMap !== 'none' &&
+              COLORMAPS[colors.colorMap]
           ) {
             const map = COLORMAPS[colors.colorMap];
             // opacity is usually 0.1 to 1.0. Let's map it 0 to 1
@@ -293,12 +308,12 @@ export const GridRenderer: React.FC<GridRendererProps> = ({
 
           if (active && effects.glow > 0) {
             targetShadowBlur =
-              effects.glow *
-              0.5 *
-              (animationStyle === 'glow' &&
+                effects.glow *
+                0.5 *
+                (animationStyle === 'glow' &&
                 (!colors.colorMap || colors.colorMap === 'none')
-                ? opacity * 2
-                : 1);
+                    ? opacity * 2
+                    : 1);
             targetShadowColor = finalColor;
           }
 
@@ -315,11 +330,11 @@ export const GridRenderer: React.FC<GridRendererProps> = ({
           ctx.beginPath();
           if (cellShape === 'circle') {
             ctx.arc(
-              px + drawSize / 2,
-              py + drawSize / 2,
-              drawSize / 2,
-              0,
-              Math.PI * 2
+                px + drawSize / 2,
+                py + drawSize / 2,
+                drawSize / 2,
+                0,
+                Math.PI * 2
             );
           } else if (cellShape === 'rounded') {
             ctx.roundRect(px, py, drawSize, drawSize, drawSize * 0.25);
@@ -353,13 +368,13 @@ export const GridRenderer: React.FC<GridRendererProps> = ({
             ctx.moveTo(cx, cy - outerRadius);
             for (let i = 0; i < spikes; i++) {
               ctx.lineTo(
-                cx + Math.cos(rot) * outerRadius,
-                cy + Math.sin(rot) * outerRadius
+                  cx + Math.cos(rot) * outerRadius,
+                  cy + Math.sin(rot) * outerRadius
               );
               rot += step;
               ctx.lineTo(
-                cx + Math.cos(rot) * innerRadius,
-                cy + Math.sin(rot) * innerRadius
+                  cx + Math.cos(rot) * innerRadius,
+                  cy + Math.sin(rot) * innerRadius
               );
               rot += step;
             }
@@ -375,10 +390,21 @@ export const GridRenderer: React.FC<GridRendererProps> = ({
       animationRef.current = requestAnimationFrame(render);
     };
 
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isVisible.current = entry.isIntersecting;
+        if (entry.isIntersecting && !animationRef.current) {
+          animationRef.current = requestAnimationFrame(render);
+        }
+      });
+    });
+
+    observer.observe(canvas);
     animationRef.current = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animationRef.current);
+      observer.disconnect();
     };
   }, [config, width, height]);
 
