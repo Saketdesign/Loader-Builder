@@ -1,65 +1,61 @@
-# Loader Builder
+# loader builder
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Live Demo](https://img.shields.io/badge/Demo-loader--builder.saket.works-blue.svg)](https://loader-builder.saket.works/)
-[![CI](https://github.com/Saketdesign/Loader-Builder/actions/workflows/ci.yml/badge.svg)](https://github.com/Saketdesign/Loader-Builder/actions/workflows/ci.yml)
+[![license: mit](https://img.shields.io/badge/license-mit-yellow.svg)](LICENSE)
+[![live demo](https://img.shields.io/badge/demo-loader--builder.saket.works-blue.svg)](https://loader-builder.saket.works/)
+[![ci](https://github.com/Saketdesign/Loader-Builder/actions/workflows/ci.yml/badge.svg)](https://github.com/Saketdesign/Loader-Builder/actions/workflows/ci.yml)
 
-Loader Builder is a React and TypeScript visual tool for designing, visualizing, and exporting animated "AI-style" grid loaders. You can tweak properties like pattern, shape, and colors, and instantly export the loader as a React component or as a WebM video!
+browser tool to design, preview, and export animated grid loaders as react components or webm loops.
 
+## live tool
 
-## Features
-- **Visual Builder:** Drag, pan, and zoom around the canvas.
-- **Customization:** Tweak colors, grid density, animation styles, and cell shapes.
-- **React Export:** Generates clean, ready-to-use React functional components.
-- **Video Export:** High-quality WebM recording right from the canvas.
+👉 **[loader-builder.saket.works](https://loader-builder.saket.works/)**
 
-## Getting Started
+## what it does
 
-### Prerequisites
-Make sure you have Node >18.x installed.
+- visual builder: drag, pan, zoom, and adjust grid density, animation speed, and cell shapes
+- react export: generates clean functional components ready to paste into your app
+- video export: records webm loops directly from the canvas
 
-### Setup
+## getting started
 
-Clone the repository and install dependencies:
+### setup
+
+clone the repository and install dependencies:
 
 ```bash
+git clone https://github.com/Saketdesign/Loader-Builder.git
+cd Loader-Builder
 npm install
 ```
 
-### Running Locally
+### local dev
 
-To start the local development server with Vite:
+start the vite development server:
 
 ```bash
 npm run dev
 ```
 
-### Testing
+### tests & checks
 
-Tests are written using **Vitest** and **React Testing Library**.
+```bash
+# run tests
+npm test
 
-- **Run Tests:** `npm test`
-- **Check Coverage:** `npm run coverage`
+# check coverage
+npm run coverage
 
-Currently aiming for 80%+ coverage across utility and state management files.
+# lint and format
+npm run lint
+npm run format
+```
 
-### Linting and Formatting
+## community & support
 
-We use ESLint for linting and Prettier for code formatting.
+- live app: [loader-builder.saket.works](https://loader-builder.saket.works/)
+- issue sla: bug reports and questions are answered within 24 hours.
+- discussions: join our [github discussions](https://github.com/Saketdesign/Loader-Builder/discussions).
 
-- **Lint:** `npm run lint`
-- **Fix Lint Issues:** `npm run lint:fix`
-- **Format Code:** `npm run format`
+## license
 
-> **Note:** We enforce formatting via a pre-commit hook using `husky` and `lint-staged`. Your code will automatically format before you can commit.
-
-## Security Practices
-- `.gitignore` includes specific exclusions for `node_modules`, `dist`, `build`, and `.env` files.
-- Ensure no API keys or big binaries (>50MB) are committed.
-
-
-## Community & Support
-
-- **Live App:** [loader-builder.saket.works](https://loader-builder.saket.works/)
-- **Issue SLA:** Bug reports and feature proposals are answered within 24 hours.
-- **Discussions:** Join our [GitHub Discussions](https://github.com/Saketdesign/Loader-Builder/discussions).
+[mit](LICENSE) © 2026 Saket Joshi
