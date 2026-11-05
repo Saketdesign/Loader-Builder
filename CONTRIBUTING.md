@@ -1,8 +1,8 @@
-# Contributing to Loader Builder
+# contributing to loader builder
 
-Thank you for contributing!
+thanks for contributing.
 
-## Development Setup
+## development setup
 
 ```bash
 git clone https://github.com/Saketdesign/Loader-Builder.git
@@ -11,12 +11,12 @@ npm install
 npm run dev
 ```
 
-Run test suite:
+run test suite:
 ```bash
 npm test
 ```
 
-## Guidelines
+## guidelines
 
-- All component changes should maintain high test coverage (`npm run coverage`).
-- Issues and pull requests are reviewed within 24 hours.
+- maintain test coverage across component and utility changes (`npm run coverage`).
+- issues and pull requests are reviewed within 24 hours.
