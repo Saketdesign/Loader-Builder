@@ -1,5 +1,9 @@
 # Loader Builder
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Demo-loader--builder.saket.works-blue.svg)](https://loader-builder.saket.works/)
+[![CI](https://github.com/Saketdesign/Loader-Builder/actions/workflows/ci.yml/badge.svg)](https://github.com/Saketdesign/Loader-Builder/actions/workflows/ci.yml)
+
 Loader Builder is a React and TypeScript visual tool for designing, visualizing, and exporting animated "AI-style" grid loaders. You can tweak properties like pattern, shape, and colors, and instantly export the loader as a React component or as a WebM video!
 
 
@@ -52,3 +56,10 @@ We use ESLint for linting and Prettier for code formatting.
 ## Security Practices
 - `.gitignore` includes specific exclusions for `node_modules`, `dist`, `build`, and `.env` files.
 - Ensure no API keys or big binaries (>50MB) are committed.
+
+
+## Community & Support
+
+- **Live App:** [loader-builder.saket.works](https://loader-builder.saket.works/)
+- **Issue SLA:** Bug reports and feature proposals are answered within 24 hours.
+- **Discussions:** Join our [GitHub Discussions](https://github.com/Saketdesign/Loader-Builder/discussions).
